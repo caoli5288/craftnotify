@@ -8,6 +8,13 @@ Mail notify for minecraft server.
 
 ## Configure
 ```Yaml
+server:
+  name: The minecraft server name
+  notify:
+    crashed: true
+    lagged:
+      enable: true
+      threshold: 15
 notify:
   account:
     host: smtp.google.com
