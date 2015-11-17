@@ -2,6 +2,8 @@ package com.mengcraft.craftnotify;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
@@ -70,8 +72,11 @@ public class Daemon extends TimerTask {
     }
 
     private String getServerName() {
-        if (serverName == null) {
+        if (serverName == null) try {
             serverName = main.getConfig().getString("server.name");
+            serverName = MimeUtility.encodeText(serverName);
+        } catch (UnsupportedEncodingException e) {
+            main.getLogger().warning("Exception while get server name. " + e);
         }
         return serverName;
     }
