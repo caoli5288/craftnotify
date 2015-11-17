@@ -25,6 +25,7 @@ public class Daemon extends TimerTask {
     public int threshold;
 
     public Daemon(Main main) {
+        this.tick = new AtomicInteger();
         this.main = main;
         this.prop = new Properties();
     }
