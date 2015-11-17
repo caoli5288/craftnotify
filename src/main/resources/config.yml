@@ -1,0 +1,12 @@
+server:
+  name: The minecraft server name
+  notify:
+    lagged:
+      threshold: 15
+notify:
+  account:
+    host: smtp.google.com
+    user: root@google.com
+    pass: anyPassword
+    overSSL: true
+  sendTo: root@gmail.com

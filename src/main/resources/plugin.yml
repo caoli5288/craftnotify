@@ -1,0 +1,4 @@
+name: CraftNotify
+main: com.mengcraft.craftnotify.Main
+version: ${project.version}
+author: mengcraft.com
