@@ -24,6 +24,7 @@ public class Main extends JavaPlugin {
         }, 20, 20);
 
         daemon.setHost(getConfig().getString("notify.account.host"));
+        daemon.setPort(getConfig().getInt("notify.account.port"));
         daemon.setNeedAuth(true);
         daemon.setUser(getConfig().getString("notify.account.user"));
         daemon.setPass(getConfig().getString("notify.account.pass"));

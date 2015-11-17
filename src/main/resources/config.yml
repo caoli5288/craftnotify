@@ -6,6 +6,7 @@ server:
 notify:
   account:
     host: smtp.google.com
+    port: 25
     user: root@google.com
     pass: anyPassword
     overSSL: true

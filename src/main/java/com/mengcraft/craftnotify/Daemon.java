@@ -89,11 +89,11 @@ public class Daemon extends TimerTask {
     }
 
     public void setNeedAuth(boolean b) {
-        prop.put("mail.smtp.auth", Boolean.toString(b));
+        prop.put("mail.smtp.auth", b);
     }
 
     public void setOverSSL(boolean b) {
-        prop.put("mail.smtp.starttls.enable", Boolean.toString(b));
+        prop.put("mail.smtp.starttls.enable", b);
     }
 
     public void setUser(String user) {
@@ -115,6 +115,10 @@ public class Daemon extends TimerTask {
 
     public AtomicInteger getTick() {
         return tick;
+    }
+
+    public void setPort(int port) {
+        prop.put("mail.smtp.port", port);
     }
 
 }
