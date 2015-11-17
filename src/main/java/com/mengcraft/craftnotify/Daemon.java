@@ -61,8 +61,7 @@ public class Daemon extends TimerTask {
     private Session getSession() {
         if (session == null) {
             session = Session.getInstance(prop, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
+                public PasswordAuthentication getPasswordAuthentication() {
                     return getAuthentication();
                 }
             });
@@ -93,6 +92,7 @@ public class Daemon extends TimerTask {
     }
 
     public void setSign(boolean b) {
+        prop.put("mail.smtp.ssl.enable", b);
         prop.put("mail.smtp.starttls.enable", b);
     }
 
