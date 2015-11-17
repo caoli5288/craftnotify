@@ -39,7 +39,7 @@ public class Daemon extends TimerTask {
                 message.setFrom(prop.getProperty("mail.smtp.from"));
                 message.setRecipients(Message.RecipientType.TO, getSendTo());
                 message.setSubject("Your server \"" + getServerName() + "\"may be lagged!");
-                message.setText("Current TPS is " + tickPerSecond + ", at " + new Date().toString());
+                message.setText("Current TPS is " + tickPerSecond + ", at " + new Date().toString() + '.');
 
                 Transport.send(message);
             } catch (MessagingException e) {
@@ -88,8 +88,8 @@ public class Daemon extends TimerTask {
         prop.put("mail.smtp.host", host);
     }
 
-    public void setAuth(boolean auth) {
-        prop.put("mail.smtp.auth", Boolean.toString(auth));
+    public void setNeedAuth(boolean b) {
+        prop.put("mail.smtp.auth", Boolean.toString(b));
     }
 
     public void setOverSSL(boolean b) {

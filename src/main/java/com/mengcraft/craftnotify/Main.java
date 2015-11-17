@@ -23,15 +23,17 @@ public class Main extends JavaPlugin {
             daemon.getTick().addAndGet(20);
         }, 20, 20);
 
-        daemon.setAuth(true);
-
-        daemon.setSendTo(getConfig().getString("notify.sendTo"));
         daemon.setHost(getConfig().getString("notify.account.host"));
+        daemon.setNeedAuth(true);
         daemon.setUser(getConfig().getString("notify.account.user"));
         daemon.setPass(getConfig().getString("notify.account.pass"));
-        daemon.setOverSSL(getConfig().getBoolean("notify.account.overSSL"));
 
-        timer.scheduleAtFixedRate(daemon, Daemon.PERIOD, Daemon.PERIOD);
+        daemon.setOverSSL(getConfig().getBoolean("notify.account.overSSL"));
+        daemon.setSendTo(getConfig().getString("notify.sendTo"));
+
+        getServer().getScheduler().runTask(this, () -> {
+            timer.scheduleAtFixedRate(daemon, Daemon.PERIOD, Daemon.PERIOD);
+        });
 
         String[] ad = {
                 ChatColor.GREEN + "本插件由梦梦家服务器提供",
