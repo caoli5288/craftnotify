@@ -5,6 +5,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created on 15-11-17.
@@ -18,21 +19,19 @@ public class Daemon extends TimerTask {
 
     private PasswordAuthentication authentication;
     private Session session;
+    private String serverName;
+    private AtomicInteger tick;
+
+    public int threshold;
 
     public Daemon(Main main) {
         this.main = main;
         this.prop = new Properties();
     }
 
-    public volatile int tick;
-
-    public void setTick() {
-        this.tick = 0;
-    }
-
     @Override
     public void run() {
-        int tickPerSecond = tick / (PERIOD / 1000);
+        int tickPerSecond = tick.getAndSet(0) / (PERIOD / 1000);
         if (tickPerSecond < getThreshold()) {
             MimeMessage message = new MimeMessage(getSession());
             try {
@@ -46,7 +45,6 @@ public class Daemon extends TimerTask {
                 throw new RuntimeException("Exception while send mail!", e);
             }
         }
-        setTick();
     }
 
     private PasswordAuthentication getAuthentication() {
@@ -72,11 +70,17 @@ public class Daemon extends TimerTask {
     }
 
     private String getServerName() {
-        return main.getConfig().getString("server.name");
+        if (serverName == null) {
+            serverName = main.getConfig().getString("server.name");
+        }
+        return serverName;
     }
 
     private int getThreshold() {
-        return main.getConfig().getInt("server.notify.lagged.threshold");
+        if (threshold == 0) {
+            threshold = main.getConfig().getInt("server.notify.lagged.threshold");
+        }
+        return threshold;
     }
 
     public void setHost(String host) {
@@ -106,6 +110,10 @@ public class Daemon extends TimerTask {
 
     public String getSendTo() {
         return prop.getProperty("mail.smtp.sendTo");
+    }
+
+    public AtomicInteger getTick() {
+        return tick;
     }
 
 }

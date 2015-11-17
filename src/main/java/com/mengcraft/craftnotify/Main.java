@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
         Daemon daemon = new Daemon(this);
 
         getServer().getScheduler().runTaskTimer(this, () -> {
-            daemon.tick += 20;
+            daemon.getTick().addAndGet(20);
         }, 20, 20);
 
         daemon.setAuth(true);
