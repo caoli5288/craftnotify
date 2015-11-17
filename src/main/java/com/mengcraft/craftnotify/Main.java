@@ -23,14 +23,14 @@ public class Main extends JavaPlugin {
             daemon.getTick().addAndGet(20);
         }, 20, 20);
 
-        daemon.setHost(getConfig().getString("notify.account.host"));
-        daemon.setPort(getConfig().getInt("notify.account.port"));
         daemon.setNeedAuth(true);
-        daemon.setUser(getConfig().getString("notify.account.user"));
-        daemon.setPass(getConfig().getString("notify.account.pass"));
 
-        daemon.setOverSSL(getConfig().getBoolean("notify.account.overSSL"));
-        daemon.setSendTo(getConfig().getString("notify.sendTo"));
+        daemon.setFrom(getConfig().getString("notify.from"));
+        daemon.setHost(getConfig().getString("notify.smtp.host"));
+        daemon.setPort(getConfig().getInt("notify.smtp.port"));
+        daemon.setUser(getConfig().getString("notify.smtp.user"));
+        daemon.setPass(getConfig().getString("notify.smtp.pass"));
+        daemon.setSign(getConfig().getBoolean("notify.smtp.sign"));
 
         getServer().getScheduler().runTask(this, () -> {
             timer.scheduleAtFixedRate(daemon, Daemon.PERIOD, Daemon.PERIOD);
@@ -42,6 +42,8 @@ public class Main extends JavaPlugin {
                 ChatColor.GREEN + "shop105595113.taobao.com"
         };
         getServer().getConsoleSender().sendMessage(ad);
+
+        new Metrics(this).start();
     }
 
 }

@@ -11,15 +11,14 @@ Mail notify for minecraft server.
 server:
   name: The minecraft server name
   notify:
-    crashed: true
     lagged:
-      enable: true
       threshold: 15
 notify:
-  account:
-    host: smtp.google.com
-    user: root
+  from: mengcraft@qq.com
+  smtp:
+    host: smtp.qq.com
+    port: 25
+    user: mengcraft
     pass: anyPassword
-    overSSL: true
-  sendTo: root@gmail.com
+    sign: false
 ```

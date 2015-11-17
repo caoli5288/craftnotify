@@ -37,7 +37,7 @@ public class Daemon extends TimerTask {
             MimeMessage message = new MimeMessage(getSession());
             try {
                 message.setFrom(prop.getProperty("mail.smtp.from"));
-                message.setRecipients(Message.RecipientType.TO, getSendTo());
+                message.setRecipients(Message.RecipientType.TO, prop.getProperty("mail.smtp.from"));
                 message.setSubject("Your server \"" + getServerName() + "\" may be lagged!");
                 message.setText("Current TPS is " + tickPerSecond + ", at " + new Date().toString() + '.');
 
@@ -92,25 +92,16 @@ public class Daemon extends TimerTask {
         prop.put("mail.smtp.auth", b);
     }
 
-    public void setOverSSL(boolean b) {
+    public void setSign(boolean b) {
         prop.put("mail.smtp.starttls.enable", b);
     }
 
     public void setUser(String user) {
-        prop.put("mail.smtp.from", user);
-        prop.put("mail.smtp.user", user.substring(0, user.indexOf('@')));
+        prop.put("mail.smtp.user", user);
     }
 
     public void setPass(String pass) {
         prop.put("mail.smtp.pass", pass);
-    }
-
-    public void setSendTo(String sendTo) {
-        prop.put("mail.smtp.sendTo", sendTo);
-    }
-
-    public String getSendTo() {
-        return prop.getProperty("mail.smtp.sendTo");
     }
 
     public AtomicInteger getTick() {
@@ -119,6 +110,10 @@ public class Daemon extends TimerTask {
 
     public void setPort(int port) {
         prop.put("mail.smtp.port", port);
+    }
+
+    public void setFrom(String from) {
+        prop.put("mail.smtp.from", from);
     }
 
 }

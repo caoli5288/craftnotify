@@ -4,10 +4,10 @@ server:
     lagged:
       threshold: 15
 notify:
-  account:
-    host: smtp.google.com
+  from: mengcraft@qq.com
+  smtp:
+    host: smtp.qq.com
     port: 25
-    user: root@google.com
+    user: mengcraft
     pass: anyPassword
-    overSSL: true
-  sendTo: root@gmail.com
+    sign: false
