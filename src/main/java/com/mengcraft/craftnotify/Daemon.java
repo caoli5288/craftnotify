@@ -32,7 +32,7 @@ public class Daemon extends TimerTask {
 
     @Override
     public void run() {
-        int tickPerSecond = tick.getAndSet(0) / (PERIOD / 1000);
+        float tickPerSecond = tick.getAndSet(0) / (PERIOD / 1000F);
         if (tickPerSecond < getThreshold()) {
             MimeMessage message = new MimeMessage(getSession());
             try {
