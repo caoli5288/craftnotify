@@ -38,7 +38,7 @@ public class Daemon extends TimerTask {
             try {
                 message.setFrom(prop.getProperty("mail.smtp.from"));
                 message.setRecipients(Message.RecipientType.TO, getSendTo());
-                message.setSubject("Your server \"" + getServerName() + "\"may be lagged!");
+                message.setSubject("Your server \"" + getServerName() + "\" may be lagged!");
                 message.setText("Current TPS is " + tickPerSecond + ", at " + new Date().toString() + '.');
 
                 Transport.send(message);
