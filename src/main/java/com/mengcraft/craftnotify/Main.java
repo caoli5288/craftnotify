@@ -31,6 +31,7 @@ public class Main extends JavaPlugin {
         daemon.setUser(getConfig().getString("notify.smtp.user"));
         daemon.setPass(getConfig().getString("notify.smtp.pass"));
         daemon.setSign(getConfig().getBoolean("notify.smtp.sign"));
+        daemon.addSend(getConfig().getStringList("notify.send"));
 
         getServer().getScheduler().runTask(this, () -> {
             timer.scheduleAtFixedRate(daemon, Daemon.PERIOD, Daemon.PERIOD);

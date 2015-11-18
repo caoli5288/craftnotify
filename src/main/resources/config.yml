@@ -11,3 +11,5 @@ notify:
     user: mengcraft
     pass: anyPassword
     sign: false
+  send:
+  - mengcraft@qq.com

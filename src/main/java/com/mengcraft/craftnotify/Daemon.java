@@ -4,9 +4,7 @@ import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Properties;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -17,16 +15,18 @@ public class Daemon extends TimerTask {
     static final int PERIOD = 180000;
 
     private final Properties prop;
+    private final Set<String> send;
     private final Main main;
+    private final AtomicInteger tick;
 
     private PasswordAuthentication authentication;
     private Session session;
-    private String serverName;
-    private AtomicInteger tick;
 
+    private String serverName;
     public int threshold;
 
     public Daemon(Main main) {
+        this.send = new HashSet<>();
         this.tick = new AtomicInteger();
         this.main = main;
         this.prop = new Properties();
@@ -38,8 +38,13 @@ public class Daemon extends TimerTask {
         if (tickPerSecond < getThreshold()) {
             MimeMessage message = new MimeMessage(getSession());
             try {
+                if (send.size() == 0) {
+                    message.addRecipients(Message.RecipientType.TO, prop.getProperty("mail.smtp.from"));
+                } else for (String line : send) {
+                    message.addRecipients(Message.RecipientType.TO, line);
+                }
                 message.setFrom(prop.getProperty("mail.smtp.from"));
-                message.setRecipients(Message.RecipientType.TO, prop.getProperty("mail.smtp.from"));
+
                 message.setSubject("Your server \"" + getServerName() + "\" may be lagged!");
                 message.setText("Current TPS is " + tickPerSecond + ", at " + new Date().toString() + '.');
 
@@ -119,6 +124,10 @@ public class Daemon extends TimerTask {
 
     public void setFrom(String from) {
         prop.put("mail.smtp.from", from);
+    }
+
+    public void addSend(List<String> list) {
+        send.addAll(list);
     }
 
 }
